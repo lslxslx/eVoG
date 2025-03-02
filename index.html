@@ -5,9 +5,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Votimi Online</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,100..900;1,100..900&display=swap"
+        rel="stylesheet">
     <style>
         body {
-            font-family: Arial, sans-serif;
+            font-family: "Noto Sans", sans-serif;
+            font-optical-sizing: auto;
+            font-style: normal;
+            font-variation-settings: "wdth" 100;
             background-color: #f4f4f4;
             margin: 0;
             padding: 0;
@@ -28,11 +35,21 @@
         }
 
         /* Titujt */
-        h2 {
+        p {
             color: #333;
         }
 
         /* Opsionet e votimit */
+        #tokenInput {
+            background: #fff;
+            width: 100%;
+            box-sizing: border-box;
+            padding: 10px;
+            margin: 5px 0;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+
         label {
             display: block;
             background: #fff;
@@ -50,7 +67,7 @@
 
         /* Butonat */
         button {
-            background: #007bff;
+            background: #316dba;
             color: white;
             border: none;
             padding: 10px;
@@ -68,11 +85,11 @@
 
         /* Butoni për shikimin e votave */
         button#viewVotes {
-            background: #28a745;
+            background: #4f9093;
         }
 
         button#viewVotes:hover {
-            background: #218838;
+            background: #366c6e;
         }
 
         .modal {
@@ -109,16 +126,15 @@
 
 <body>
     <div class="container">
-        <h2>Vendos Token-in për të votuar</h2>
+        <p>Shkruani ID që keni në email për të votuar.</p>
         <input type="text" id="tokenInput" placeholder="Vendos token-in këtu">
 
-        <h2>Zgjidh kandidatin e preferuar per GMK GJI</h2>
-        <label><input type="radio" name="gmk-gji" value="Kandidat A"> Kandidat A</label>
-        <label><input type="radio" name="gmk-gji" value="Kandidat B"> Kandidat B</label>
+        <h2>Zgjidh kandidatin e preferuar për GMK GJI</h2>
+        <div id="gmk-gji-options"></div>
 
-        <h2>Zgjidh kandidatin e preferuar per GMK GJZ</h2>
-        <label><input type="radio" name="gmk-gjz" value="Kandidat X"> Kandidat X</label>
-        <label><input type="radio" name="gmk-gjz" value="Kandidat Y"> Kandidat Y</label>
+        <h2>Zgjidh kandidatin e preferuar për GMK GJZ</h2>
+        <div id="gmk-gjz-options"></div>
+
 
         <button onclick="submitVote()">Voto</button>
         <button id="viewVotes" onclick="fetchVotes()">Shiko rezultatin</button>
@@ -127,7 +143,7 @@
     <div id="votesModal" class="modal">
         <div class="modal-content">
             <span class="close" onclick="closeModal()">&times;</span>
-            <h2>📊 Rezultatet e Votimit</h2>
+            <p>📊 Rezultatet e Votimit</p>
             <p><strong>🗳 GMK GJI:</strong></p>
             <p id="votesGMKGJI"></p>
             <p><strong>🗳 GMK GJZ:</strong></p>
