@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="sq">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Votimi Online</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        /* Kuti qendrore për votimin */
+        .container {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            width: 350px;
+            text-align: center;
+        }
+
+        /* Titujt */
+        h2 {
+            color: #333;
+        }
+
+        /* Opsionet e votimit */
+        label {
+            display: block;
+            background: #fff;
+            padding: 10px;
+            margin: 5px 0;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        label:hover {
+            background: #f0f0f0;
+        }
+
+        /* Butonat */
+        button {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 10px;
+            margin-top: 10px;
+            width: 100%;
+            cursor: pointer;
+            font-size: 16px;
+            border-radius: 5px;
+            transition: 0.3s;
+        }
+
+        button:hover {
+            background: #0056b3;
+        }
+
+        /* Butoni për shikimin e votave */
+        button#viewVotes {
+            background: #28a745;
+        }
+
+        button#viewVotes:hover {
+            background: #218838;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h2>Vendos Token-in për të votuar</h2>
+        <input type="text" id="tokenInput" placeholder="Vendos token-in këtu">
+        
+        <h2>Zgjidh kandidatin e preferuar per GMK GJI</h2>
+        <label><input type="radio" name="gmk-gji" value="Kandidat A"> Kandidat A</label>
+        <label><input type="radio" name="gmk-gji" value="Kandidat B"> Kandidat B</label>
+
+        <h2>Zgjidh kandidatin e preferuar per GMK GJZ</h2>
+        <label><input type="radio" name="gmk-gjz" value="Kandidat X"> Kandidat X</label>
+        <label><input type="radio" name="gmk-gjz" value="Kandidat Y"> Kandidat Y</label>
+
+        <button onclick="submitVote()">Voto</button>
+        <button id="viewVotes" onclick="fetchVotes()">Shiko Votat</button>
+    </div>
+    <script src="code.js"></script>
+
+</body>
+
+</html>
