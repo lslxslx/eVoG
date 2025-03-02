@@ -59,31 +59,41 @@ async function fetchVotes() {
     }
 
     const data = await response.json();
+    
+    // Lexojmë kandidatët nga JSON
+    const candidatesGMKGJI = data.candidates.GMK_GJI;
+    const candidatesGMKGJZ = data.candidates.GMK_GJZ;
 
-    // Numërimi i votave
+    // Krijojmë strukturën për numërimin e votave
     let voteCounts = {
-        "GMK_GJI": { "Kandidat A": 0, "Kandidat B": 0 },
-        "GMK_GJZ": { "Kandidat X": 0, "Kandidat Y": 0 }
+        "GMK_GJI": {},
+        "GMK_GJZ": {}
     };
 
+    // Inicimi i numërimit për secilin kandidat
+    candidatesGMKGJI.forEach(candidate => voteCounts.GMK_GJI[candidate] = 0);
+    candidatesGMKGJZ.forEach(candidate => voteCounts.GMK_GJZ[candidate] = 0);
+
+    // Përpunimi i votave dhe numërimi
     for (const token in data.votes) {
         const vote = data.votes[token];
         if (vote.GMK_GJI) voteCounts.GMK_GJI[vote.GMK_GJI]++;
         if (vote.GMK_GJZ) voteCounts.GMK_GJZ[vote.GMK_GJZ]++;
     }
 
-    // Mbush modalin me votat
-    document.getElementById("votesGMKGJI").innerHTML = 
-        `- Kandidat A: ${voteCounts.GMK_GJI["Kandidat A"]} vota<br>` +
-        `- Kandidat B: ${voteCounts.GMK_GJI["Kandidat B"]} vota`;
+    // Mbush modalin me rezultatet e votimit
+    document.getElementById("votesGMKGJI").innerHTML = candidatesGMKGJI
+        .map(candidate => `- ${candidate}: ${voteCounts.GMK_GJI[candidate]} vota<br>`)
+        .join("");
 
-    document.getElementById("votesGMKGJZ").innerHTML = 
-        `- Kandidat X: ${voteCounts.GMK_GJZ["Kandidat X"]} vota<br>` +
-        `- Kandidat Y: ${voteCounts.GMK_GJZ["Kandidat Y"]} vota`;
+    document.getElementById("votesGMKGJZ").innerHTML = candidatesGMKGJZ
+        .map(candidate => `- ${candidate}: ${voteCounts.GMK_GJZ[candidate]} vota<br>`)
+        .join("");
 
     // Hap modalin vetëm kur klikohet butoni
     document.getElementById("votesModal").style.display = "flex";
 }
+
 
 // Funksioni për të mbyllur modalin
 function closeModal() {
