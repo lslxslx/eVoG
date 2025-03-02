@@ -18,21 +18,20 @@ async function fetchVotes() {
     }
 
     const data = await response.json();
-    
-    // Inicimi i numërimit të votave për secilin kandidat
+
+    // Numërimi i votave
     let voteCounts = {
         "GMK_GJI": { "Kandidat A": 0, "Kandidat B": 0 },
         "GMK_GJZ": { "Kandidat X": 0, "Kandidat Y": 0 }
     };
 
-    // Përpunimi i votave
     for (const token in data.votes) {
         const vote = data.votes[token];
         if (vote.GMK_GJI) voteCounts.GMK_GJI[vote.GMK_GJI]++;
         if (vote.GMK_GJZ) voteCounts.GMK_GJZ[vote.GMK_GJZ]++;
     }
 
-    // Mbushja e modalit me rezultatet
+    // Mbush modalin me votat
     document.getElementById("votesGMKGJI").innerHTML = 
         `- Kandidat A: ${voteCounts.GMK_GJI["Kandidat A"]} vota<br>` +
         `- Kandidat B: ${voteCounts.GMK_GJI["Kandidat B"]} vota`;
@@ -41,7 +40,7 @@ async function fetchVotes() {
         `- Kandidat X: ${voteCounts.GMK_GJZ["Kandidat X"]} vota<br>` +
         `- Kandidat Y: ${voteCounts.GMK_GJZ["Kandidat Y"]} vota`;
 
-    // Shfaq modalin
+    // Hap modalin vetëm kur klikohet butoni
     document.getElementById("votesModal").style.display = "flex";
 }
 
@@ -49,6 +48,7 @@ async function fetchVotes() {
 function closeModal() {
     document.getElementById("votesModal").style.display = "none";
 }
+
 
 // Funksioni për të ruajtur votat në Dropbox
 async function saveVotes(votesData) {
