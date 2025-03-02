@@ -74,6 +74,36 @@
         button#viewVotes:hover {
             background: #218838;
         }
+
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+            width: 300px;
+        }
+
+        .close {
+            color: red;
+            font-size: 24px;
+            float: right;
+            cursor: pointer;
+        }
     </style>
 </head>
 
@@ -81,7 +111,7 @@
     <div class="container">
         <h2>Vendos Token-in për të votuar</h2>
         <input type="text" id="tokenInput" placeholder="Vendos token-in këtu">
-        
+
         <h2>Zgjidh kandidatin e preferuar per GMK GJI</h2>
         <label><input type="radio" name="gmk-gji" value="Kandidat A"> Kandidat A</label>
         <label><input type="radio" name="gmk-gji" value="Kandidat B"> Kandidat B</label>
@@ -92,6 +122,17 @@
 
         <button onclick="submitVote()">Voto</button>
         <button id="viewVotes" onclick="fetchVotes()">Shiko Votat</button>
+    </div>
+
+    <div id="votesModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <h2>📊 Rezultatet e Votimit</h2>
+            <p><strong>🗳 GMK GJI:</strong></p>
+            <p id="votesGMKGJI"></p>
+            <p><strong>🗳 GMK GJZ:</strong></p>
+            <p id="votesGMKGJZ"></p>
+        </div>
     </div>
     <script src="code.js"></script>
 

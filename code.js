@@ -32,12 +32,22 @@ async function fetchVotes() {
         if (vote.GMK_GJZ) voteCounts.GMK_GJZ[vote.GMK_GJZ]++;
     }
 
-    // Shfaqja e rezultateve me alert
-    alert(
-        `📊 Rezultatet e Votimit:\n\n` +
-        `🗳 GMK GJI:\n  - Kandidat A: ${voteCounts.GMK_GJI["Kandidat A"]} vota\n  - Kandidat B: ${voteCounts.GMK_GJI["Kandidat B"]} vota\n\n` +
-        `🗳 GMK GJZ:\n  - Kandidat X: ${voteCounts.GMK_GJZ["Kandidat X"]} vota\n  - Kandidat Y: ${voteCounts.GMK_GJZ["Kandidat Y"]} vota`
-    );
+    // Mbushja e modalit me rezultatet
+    document.getElementById("votesGMKGJI").innerHTML = 
+        `- Kandidat A: ${voteCounts.GMK_GJI["Kandidat A"]} vota<br>` +
+        `- Kandidat B: ${voteCounts.GMK_GJI["Kandidat B"]} vota`;
+
+    document.getElementById("votesGMKGJZ").innerHTML = 
+        `- Kandidat X: ${voteCounts.GMK_GJZ["Kandidat X"]} vota<br>` +
+        `- Kandidat Y: ${voteCounts.GMK_GJZ["Kandidat Y"]} vota`;
+
+    // Shfaq modalin
+    document.getElementById("votesModal").style.display = "flex";
+}
+
+// Funksioni për të mbyllur modalin
+function closeModal() {
+    document.getElementById("votesModal").style.display = "none";
 }
 
 // Funksioni për të ruajtur votat në Dropbox
