@@ -1,61 +1,12 @@
-const DROPBOX_APP_KEY = "075dc7nbw5mez7h";
-const DROPBOX_APP_SECRET = "7fo0mcludkqg4b0";
-const VOTES_FILE_PATH = "/votes.json";
-// Funksioni për rifreskimin e Access Token me Refresh Token
-async function refreshAccessToken(refreshToken) {
-    const response = await fetch("https://api.dropboxapi.com/oauth2/token", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/x-www-form-urlencoded"
-        },
-        body: new URLSearchParams({
-            grant_type: "refresh_token",
-            refresh_token: refreshToken,
-            client_id: DROPBOX_APP_KEY,
-            client_secret: DROPBOX_APP_SECRET
-        })
-    });
+const DROPBOX_ACCESS_TOKEN = "";
+const VOTES_FILE_PATH = "/votes.json"; // Rruga e skedarit në Dropbox
 
-    const data = await response.json();
-    if (response.ok) {
-        // Ruaj Access Token të ri në localStorage ose sessionStorage për përdorim të mëvonshëm
-        const newAccessToken = data.access_token;
-        localStorage.setItem("dropboxAccessToken", newAccessToken); // Ruaj për përdorim më vonë
-        console.log("Access Token i rifreskuar me sukses!");
-    } else {
-        console.error("Gabim në rifreskimin e tokenit:", data);
-    }
-}
-
-// Funksioni për marrë Access Token nga localStorage dhe për rifreskimin nëse është e nevojshme
-async function getAccessToken() {
-    let accessToken = localStorage.getItem("dropboxAccessToken");
-
-    // Kontrollo nëse tokeni është i disponueshëm
-    if (!accessToken) {
-        console.log("Access Token nuk është i disponueshëm, rifreskoj...");
-        const refreshToken = localStorage.getItem("dropboxRefreshToken");
-
-        if (refreshToken) {
-            // Rifresko Access Token me Refresh Token
-            await refreshAccessToken(refreshToken);
-            accessToken = localStorage.getItem("dropboxAccessToken");
-        } else {
-            alert("Nuk mund të rifreskojmë tokenin. Ju lutem regjistrohuni përsëri.");
-        }
-    }
-
-    return accessToken;
-}
-
-// Funksioni për t’u lidhur me Dropbox dhe për të shkarkuar kandidatët
+// Funksioni për të lexuar kandidatët dhe për t'i shfaqur në HTML
 async function loadCandidates() {
-    const accessToken = await getAccessToken(); // Merrni tokenin aktual
-
     const response = await fetch("https://content.dropboxapi.com/2/files/download", {
         method: "POST",
         headers: {
-            "Authorization": `Bearer ${accessToken}`,
+            "Authorization": `Bearer ${DROPBOX_ACCESS_TOKEN}`,
             "Dropbox-API-Arg": JSON.stringify({ path: VOTES_FILE_PATH })
         }
     });
@@ -93,12 +44,10 @@ window.onload = loadCandidates;
 
 // Funksioni për të lexuar votat nga Dropbox
 async function fetchVotes() {
-    const accessToken = await getAccessToken(); // Merrni tokenin aktual
-
     const response = await fetch("https://content.dropboxapi.com/2/files/download", {
         method: "POST",
         headers: {
-            "Authorization": `Bearer ${accessToken}`,
+            "Authorization": `Bearer ${DROPBOX_ACCESS_TOKEN}`,
             "Dropbox-API-Arg": JSON.stringify({ path: VOTES_FILE_PATH })
         }
     });
@@ -111,6 +60,7 @@ async function fetchVotes() {
 
     const data = await response.json();
     
+    // Lexojmë kandidatët nga JSON
     const candidatesGMKGJI = data.candidates.GMK_GJI;
     const candidatesGMKGJZ = data.candidates.GMK_GJZ;
 
@@ -144,19 +94,19 @@ async function fetchVotes() {
     document.getElementById("votesModal").style.display = "flex";
 }
 
+
 // Funksioni për të mbyllur modalin
 function closeModal() {
     document.getElementById("votesModal").style.display = "none";
 }
 
+
 // Funksioni për të ruajtur votat në Dropbox
 async function saveVotes(votesData) {
-    const accessToken = await getAccessToken(); // Merrni tokenin aktual
-
     const response = await fetch("https://content.dropboxapi.com/2/files/upload", {
         method: "POST",
         headers: {
-            "Authorization": `Bearer ${accessToken}`,
+            "Authorization": `Bearer ${DROPBOX_ACCESS_TOKEN}`,
             "Dropbox-API-Arg": JSON.stringify({ path: VOTES_FILE_PATH, mode: "overwrite" }),
             "Content-Type": "application/octet-stream"
         },
@@ -177,17 +127,15 @@ async function submitVote() {
     const voteGMKGJZ = document.querySelector('input[name="gmk-gjz"]:checked')?.value;
 
     if (!token || !voteGMKGJI || !voteGMKGJZ) {
-        alert("Plotëso të gjitha fushat!");
+        alert("Ploteso të gjitha fushat!");
         return;
     }
 
     // Lexo votat aktuale nga Dropbox
-    const accessToken = await getAccessToken(); // Merrni tokenin aktual
-
     const response = await fetch("https://content.dropboxapi.com/2/files/download", {
         method: "POST",
         headers: {
-            "Authorization": `Bearer ${accessToken}`,
+            "Authorization": `Bearer ${DROPBOX_ACCESS_TOKEN}`,
             "Dropbox-API-Arg": JSON.stringify({ path: VOTES_FILE_PATH })
         }
     });
