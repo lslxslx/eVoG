@@ -83,11 +83,11 @@ async function fetchVotes() {
 
     // Mbush modalin me rezultatet e votimit
     document.getElementById("votesGMKGJI").innerHTML = candidatesGMKGJI
-        .map(candidate => `- ${candidate}: ${voteCounts.GMK_GJI[candidate]} vota<br>`)
+        .map(candidate => `- ${candidate}: ${voteCounts.GMK_GJI[candidate]}<br>`)
         .join("");
 
     document.getElementById("votesGMKGJZ").innerHTML = candidatesGMKGJZ
-        .map(candidate => `- ${candidate}: ${voteCounts.GMK_GJZ[candidate]} vota<br>`)
+        .map(candidate => `- ${candidate}: ${voteCounts.GMK_GJZ[candidate]}<br>`)
         .join("");
 
     // Hap modalin vetëm kur klikohet butoni
